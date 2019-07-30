@@ -6,14 +6,14 @@ The Business Question and requirements are in the pdf file
 
 Hadoop technologies in which folders:
 
-#Map Reduce
+# Map Reduce
 P2Female Graduates for Business Question 1
 P2MaleEmployment for Business Question 3
 
-#Hive
+# Hive
 In the powerpoint slides
 As well as Q5 folder
 
-#Sqoop, and oozie
+# Sqoop, and oozie
 Q5 folder 
 Powerpoint
