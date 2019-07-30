@@ -1,0 +1,4 @@
+oozie job --oozie http://quickstart.cloudera:11000/oozie \
+-D oozie.wf.application.path  /user/cloudera/oozie/workflow.xml \
+-config job.properties \
+-run

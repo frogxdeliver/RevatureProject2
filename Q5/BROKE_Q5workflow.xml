@@ -1,0 +1,74 @@
+<workflow-app name="Q5oozie" xmlns="uri:oozie:workflow:0.4">
+    <start to="sqoop-export"/>
+    <action name="sqoop-export">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+            <job-tracker>${job_tracker}</job-tracker>
+            <name-node>${name_node}</name-node>
+            <configuration>
+                <property>
+                    <name>mapred.compress.map.output</name>
+                    <value>true</value>
+                </property>
+            </configuration>
+            
+            <command>export --connect jdbc:mysql://localhost/GENDERSTATS_DB --username STUDENT_ADMIN --password p4ssw0rd --table ADOLESCENT_FERTILITY_RATE --input-enclosed-by '"' --fields-terminated-by ',' --lines-terminated-by '\n' --export-dir Project2/Downloads/Gender_StatsData.csv -m 1</command>
+        </sqoop>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+
+
+
+
+    <kill name="kill">
+        <message>Oozie job terminated with errors</message>
+    </kill>
+
+    <end name="end"/>
+</workflow-app>
+
+
+
+
+            <configuration>
+                <property>
+                    <name>mapred.compress.map.output</name>
+                    <value>true</value>
+                </property>
+            </configuration>
+
+
+<workflow-app name="oozie-hive" xmlns="uri:oozie:workflow:0.4">
+    <!-- Start Control Node -->
+    <start to="hive-create"/>
+
+    <!--Hive Table Creation-->
+    <action name="hive-create">
+        <hive xmlns="uri:oozie:hive-action:0.4">
+            <job-tracker>${job_tracker}</job-tracker>
+            <name-node>${name_node}</name-node>
+
+            <!--Set up a connection to Hive Metastore-->
+            <configuration>
+                <property>
+                    <name>hive.metastore.uris</name>
+                    <value>thrift://localhost:9083</value>
+                </property>
+            </configuration>
+
+            <script>${scripts_location}/queries.sql</script>
+        </hive>
+
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+
+    <!--Kill job control node-->
+    <kill name="kill">
+        <message>Oozie job terminated with errors</message>
+    </kill>
+
+    <!--End job controll node-->
+    <end name="end"/>
+
+</workflow-app>
